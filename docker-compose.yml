@@ -1,0 +1,44 @@
+services:
+
+  app-backend:
+    build: .
+    container_name: app-backend
+    ports:
+      - "5050:5050"
+    environment:
+      DB_HOST: servidor-bd-ejemplo
+      DB_USER: adso_user
+      DB_PASSWORD: adso_password
+      DB_NAME: adso_db
+    depends_on:
+      - servidor-bd-ejemplo
+    restart: unless-stopped
+
+  servidor-bd-ejemplo:
+    image: mysql:8.0
+    container_name: servidor-bd-ejemplo
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: adso_db
+      MYSQL_USER: adso_user
+      MYSQL_PASSWORD: adso_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - npm_data:/data
+      - npm_letsencrypt:/etc/letsencrypt
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  npm_data:
+  npm_letsencrypt:
