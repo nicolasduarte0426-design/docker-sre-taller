@@ -1,4 +1,4 @@
-FROM python:3.8m
+FROM python:3.8
 
 WORKDIR /app
 
