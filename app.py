@@ -12,7 +12,7 @@ def get_db_connection():
             return pymysql.connect(
                 host=os.getenv("DB_HOST", "servidor-bd"),
                 user=os.getenv("DB_USER", "adso_user"),
-                password=os.getenv("DB_PASSWORD", "adso_password"),
+                password="adso_password",
                 database=os.getenv("DB_NAME", "adso_db"),
                 connect_timeout=5
             )
